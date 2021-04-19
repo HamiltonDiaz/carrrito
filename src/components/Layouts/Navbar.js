@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge"
-import logo from "../assets/logo.png"
+import logo from "../../assets/logo.png"
 import { ShoppingCart } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar:{
         backgroundColor:"whitesmoke",
-        boxShadow:"none",
+        boxShadow:"none", 
     },
     grow:{
         flexGrow:1,

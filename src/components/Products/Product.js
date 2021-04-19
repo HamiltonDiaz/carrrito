@@ -13,6 +13,9 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {AddShoppingCart} from "@material-ui/icons"
 import accounting from "accounting"
 
+// http://localhost:5000/static/uploads/guitarra-acustica.jpg
+
+const baseUrlApi= process.env.REACT_APP_BASE_URL_IMG
 const useStyles = makeStyles((theme) => ({
     root: {
         maxWidth: 345,
@@ -36,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function RecipeReviewCard() {
+export default function Product({data}) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
 
@@ -53,16 +56,15 @@ export default function RecipeReviewCard() {
                         variant="h6"
                         color="textSecondary"
                     >
-                        {accounting.formatMoney(50000)}
-                        
+                        {accounting.formatMoney(data.precio)}                        
                     </Typography>
                 }
-                title="Guitar Tipe Casino"
+                title={data.name}
                 subheader="In stock"
             />
             <CardMedia
-                className={classes.media}
-                image="https://i2.bssl.es/miusyk/2010/04/63058_l.jpg"
+                className={classes.media}                
+                image={`${baseUrlApi}/${data.img}`}                
                 title="Guitarra tipo casino"
             />
             <CardContent>
@@ -99,7 +101,7 @@ export default function RecipeReviewCard() {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph>
-                        Instrumento de cuerdas.
+                        {data.decripcion}
                     </Typography>
                 </CardContent>
             </Collapse>
