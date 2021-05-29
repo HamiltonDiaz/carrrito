@@ -1,14 +1,19 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
+import {
+    makeStyles, 
+    Card,
+    CardHeader,
+    CardMedia,
+    CardContent,
+    CardActions,
+    Collapse,
+    IconButton,
+    Typography,
+    
+}from "@material-ui/core"
+
+
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {AddShoppingCart} from "@material-ui/icons"
 import accounting from "accounting"
@@ -24,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop:"1rem",
     },
     media: {
-        height: 0,
+        
         paddingTop: "56.25%", // 16:9
     },
     expand: {
@@ -62,14 +67,17 @@ export default function Product({data}) {
                 title={data.name}
                 subheader="In stock"
             />
+            
             <CardMedia
+                height="50"
                 className={classes.media}                
                 image={`${baseUrlApi}/${data.img}`}                
-                title="Guitarra tipo casino"
+                title={data.name}
             />
+        
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    Guitarra con sonido espectacular
+                    Linea: {data.nomlinea}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -80,7 +88,7 @@ export default function Product({data}) {
                 </IconButton>
 
                 <IconButton>
-                    {Array(4)
+                    {Array(data.rating)
                         .fill()
                         .map((_,i)=>(
                         <p>&#11088;</p>
@@ -93,7 +101,7 @@ export default function Product({data}) {
                     })}
                     onClick={handleExpandClick}
                     aria-expanded={expanded}
-                    aria-label="show more"
+                    aria-label="Ver más"
                 >
                     <ExpandMoreIcon />
                 </IconButton>
@@ -101,7 +109,7 @@ export default function Product({data}) {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph>
-                        {data.decripcion}
+                        {data.descripcion} 
                     </Typography>
                 </CardContent>
             </Collapse>
