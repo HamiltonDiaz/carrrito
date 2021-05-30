@@ -12,11 +12,12 @@ import {
     Typography,
     
 }from "@material-ui/core"
-
-
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {AddShoppingCart} from "@material-ui/icons"
 import accounting from "accounting"
+import { actionTypes } from "../../reducer";
+import {useStateValue} from "../../StateProvider"
+
 
 // http://localhost:5000/static/uploads/guitarra-acustica.jpg
 
@@ -44,13 +45,35 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Product({data}) {
+export default function Product({product}) {
+    const {id, name, nomlinea, img, precio, rating, descripcion, lineasid, cantidad} = product 
+
     const classes = useStyles();
+    const [{cesta}, dispatch]= useStateValue();
     const [expanded, setExpanded] = React.useState(false);
+
+
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+
+    const addToCesta =()=>{
+        dispatch(
+            {
+                type: actionTypes.ADD_TO_CESTA,
+                item: {
+                    id,
+                    name,
+                    nomlinea,
+                    img,
+                    precio,
+                    rating,
+                    descripcion,
+                }
+            }
+        )
+    }
 
     return (
         <Card className={classes.root}>
@@ -61,37 +84,37 @@ export default function Product({data}) {
                         variant="h6"
                         color="textSecondary"
                     >
-                        {accounting.formatMoney(data.precio)}                        
+                        {accounting.formatMoney(precio)}        
                     </Typography>
                 }
-                title={data.name}
-                subheader="In stock"
+                title={name}
+                subheader={`Cantidad: ${cantidad}`}
             />
             
             <CardMedia
                 height="50"
-                className={classes.media}                
-                image={`${baseUrlApi}/${data.img}`}                
-                title={data.name}
+                className={classes.media}
+                image={`${baseUrlApi}/${img}`}
+                title={name}
             />
         
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    Linea: {data.nomlinea}
+                    Linea: {nomlinea}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton>
+                <IconButton aria-label="Add to Car" onClick={addToCesta} >
                     <AddShoppingCart
                         fontSize='large'
                     />
                 </IconButton>
 
                 <IconButton>
-                    {Array(data.rating)
+                    {Array(rating)
                         .fill()
                         .map((_,i)=>(
-                        <p>&#11088;</p>
+                        <p key={i} >&#11088;</p>
                     ))}
                 </IconButton>
 
@@ -109,7 +132,7 @@ export default function Product({data}) {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph>
-                        {data.descripcion} 
+                        {descripcion} 
                     </Typography>
                 </CardContent>
             </Collapse>

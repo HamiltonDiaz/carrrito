@@ -1,4 +1,6 @@
 import React from "react";
+import { actionTypes } from "../../reducer";
+import {useStateValue} from "../../StateProvider"
 import accounting from "accounting"
 import {
     makeStyles, 
@@ -10,7 +12,6 @@ import {
     Typography,
     
 }from "@material-ui/core"
-
 import DeleteIcon from '@material-ui/icons/Delete';
 
 
@@ -38,8 +39,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CheckoutCard({data}) {
+    const {id, name, nomlinea, img, precio, rating, descripcion, lineasid, cantidad} = data 
     const classes = useStyles();
-    
+    const [{cesta}, dispatch] =useStateValue();
+
+
+    const removeItem=()=>{
+        dispatch(
+            {
+                type: actionTypes.REMOVE_ITEM,
+                id,
+            }
+        )
+    }
 
     return (
         <Card className={classes.root}>
@@ -50,32 +62,32 @@ export default function CheckoutCard({data}) {
                         variant="h6"
                         color="textSecondary"
                     >
-                        {accounting.formatMoney(data.precio)}                        
+                        {accounting.formatMoney(precio)}                        
                     </Typography>
                 }
-                title={data.name}
+                title={name}
                 subheader="In stock"
             />
             
             <CardMedia
                 height="50"
                 className={classes.media}                
-                image={`${baseUrlApi}/${data.img}`}                
-                title={data.name}
+                image={`${baseUrlApi}/${img}`}                
+                title={name}
             />
         
           
             <CardActions disableSpacing className={classes.cardActions} >
                  <div className={classes.cardRating}>                    
                     <IconButton>
-                        {Array(data.rating)
+                        {Array(rating)
                             .fill()
                             .map((_,i)=>(
-                            <p>&#11088;</p>
+                            <p key={i} >&#11088;</p>
                         ))}
                     </IconButton>
                 </div>
-                <IconButton>
+                <IconButton onClick={removeItem} >
                     <DeleteIcon
                         fontSize='large'
                     />
